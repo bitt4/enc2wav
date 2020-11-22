@@ -3,20 +3,20 @@
 
 typedef struct {
     char riff_header[4];
-    int chunk_size;
+    uint32_t chunk_size;
     char format[4];
 
     char subchunk1_id[4];
-    int subchunk1_size;
+    uint32_t subchunk1_size;
     short audio_format;
     short channels;
-    int sample_rate;
-    int byte_rate;
+    uint32_t sample_rate;
+    uint32_t byte_rate;
     short block_align;
     short bits_per_sample;
 
     char subchunk2_id[4];
-    int subchunk2_size;
+    uint32_t subchunk2_size;
     char *data;
 } WavHeader;
 
