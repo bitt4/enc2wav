@@ -55,7 +55,7 @@ int main(int argc, char *argv[]){
                 display_help();
                 exit(EXIT_FAILURE);
             case 'o':
-                output_filename_arg_index = optind;
+                output_filename_arg_index = optind - 1;
                 break;
             case 'c':
                 channels = (int)strtol(optarg, &end, 10);
@@ -82,6 +82,13 @@ int main(int argc, char *argv[]){
     fseek(target_file, 0, SEEK_SET);
 
     const uint32_t wav_header_length = 44;
+
+    uint32_t byte_rate = sample_rate * channels * bits_per_sample / 8;
+    short block_align = channels * bits_per_sample / 8;
+    uint32_t number_of_samples = target_file_size / block_align + 1;    /* we need 1 more sample, because arbitrary file */
+                                                                        /* might not be aligned perfectly */
+    uint32_t data_length = number_of_samples * block_align;
+    uint32_t padding_length = target_file_size - data_length;
 
     return 0;
 }
