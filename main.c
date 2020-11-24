@@ -31,7 +31,8 @@ int main(int argc, char *argv[]){
     FILE* target_file;
 
     /* default options */
-    uint32_t output_filename_arg_index = 0;
+    char* output_filename = NULL;
+    uint8_t filename_was_set = 0;
     short channels = 1;
     uint32_t sample_rate = 44100;
     short bits_per_sample = 16;
@@ -55,7 +56,8 @@ int main(int argc, char *argv[]){
                 display_help();
                 exit(EXIT_FAILURE);
             case 'o':
-                output_filename_arg_index = optind - 1;
+                output_filename = optarg;
+                filename_was_set = 1;
                 break;
             case 'c':
                 channels = (int)strtol(optarg, &end, 10);
