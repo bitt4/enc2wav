@@ -6,22 +6,22 @@
 void display_help();
 
 typedef struct {
-    char riff_header[4];
-    uint32_t chunk_size;
-    char format[4];
+    char wav_riff_header[4];
+    uint32_t wav_chunk_size;
+    char wav_format[4];
 
-    char subchunk1_id[4];
-    uint32_t subchunk1_size;
-    short audio_format;
-    short channels;
-    uint32_t sample_rate;
-    uint32_t byte_rate;
-    short block_align;
-    short bits_per_sample;
+    char wav_subchunk1_id[4];
+    uint32_t wav_subchunk1_size;
+    short wav_audio_format;
+    short wav_channels;
+    uint32_t wav_sample_rate;
+    uint32_t wav_byte_rate;
+    short wav_block_align;
+    short wav_bits_per_sample;
 
-    char subchunk2_id[4];
-    uint32_t subchunk2_size;
-    char *data;
+    char wav_subchunk2_id[4];
+    uint32_t wav_subchunk2_size;
+    char *wav_data;
 } WavHeader;
 
 
@@ -93,19 +93,19 @@ int main(int argc, char *argv[]){
     uint32_t padding_length = target_file_size - data_length;
 
     WavHeader wav_header = {
-                            .riff_header = "RIFF",
-                            .chunk_size = 36 + data_length,
-                            .format = "WAVE",
-                            .subchunk1_id = "fmt ",
-                            .subchunk1_size = 16,
-                            .audio_format = 1,
-                            .channels = channels,
-                            .sample_rate = sample_rate,
-                            .byte_rate = byte_rate,
-                            .block_align = block_align,
-                            .bits_per_sample = bits_per_sample,
-                            .subchunk2_id = "data",
-                            .subchunk2_size = data_length
+                            .wav_riff_header = "RIFF",
+                            .wav_chunk_size = 36 + data_length,
+                            .wav_format = "WAVE",
+                            .wav_subchunk1_id = "fmt ",
+                            .wav_subchunk1_size = 16,
+                            .wav_audio_format = 1,
+                            .wav_channels = channels,
+                            .wav_sample_rate = sample_rate,
+                            .wav_byte_rate = byte_rate,
+                            .wav_block_align = block_align,
+                            .wav_bits_per_sample = bits_per_sample,
+                            .wav_subchunk2_id = "data",
+                            .wav_subchunk2_size = data_length
     };
 
     return 0;
