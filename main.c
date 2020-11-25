@@ -92,6 +92,22 @@ int main(int argc, char *argv[]){
     uint32_t data_length = number_of_samples * block_align;
     uint32_t padding_length = target_file_size - data_length;
 
+    WavHeader wav_header = {
+                            .riff_header = "RIFF",
+                            .chunk_size = 36 + data_length,
+                            .format = "WAVE",
+                            .subchunk1_id = "fmt ",
+                            .subchunk1_size = 16,
+                            .audio_format = 1,
+                            .channels = channels,
+                            .sample_rate = sample_rate,
+                            .byte_rate = byte_rate,
+                            .block_align = block_align,
+                            .bits_per_sample = bits_per_sample,
+                            .subchunk2_id = "data",
+                            .subchunk2_size = data_length
+    };
+
     return 0;
 }
 
