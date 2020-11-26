@@ -21,7 +21,6 @@ typedef struct {
 
     char wav_subchunk2_id[4];
     uint32_t wav_subchunk2_size;
-    char *wav_data;
 } WavHeader;
 
 
@@ -29,6 +28,8 @@ int main(int argc, char *argv[]){
 
     FILE* output_file;
     FILE* target_file;
+
+    char* target_filename;
 
     /* default options */
     char* output_filename = NULL;
@@ -78,7 +79,13 @@ int main(int argc, char *argv[]){
 
     /* TODO: catch parsing errors */
 
-    target_file = fopen(argv[1], "rb");
+    /* parse non-option arguments */
+    for (int i = optind; i < argc; i++){
+        target_filename = argv[i];
+        break;    /* ignore remaining args */
+    }
+
+    target_file = fopen(target_filename, "rb");
     fseek(target_file, 0, SEEK_END);
     uint64_t target_file_size = ftell(target_file);
     fseek(target_file, 0, SEEK_SET);
