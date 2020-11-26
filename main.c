@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 #include <stdlib.h>
 #include <getopt.h>
 
@@ -29,7 +30,7 @@ int main(int argc, char *argv[]){
     FILE* output_file;
     FILE* target_file;
 
-    char* target_filename;
+    char* target_filename = NULL;
 
     /* default options */
     char* output_filename = NULL;
@@ -85,7 +86,25 @@ int main(int argc, char *argv[]){
         break;    /* ignore remaining args */
     }
 
+    if(target_filename == NULL){
+        fprintf(stderr, "Target file not specified.\n");
+        return -1;
+    }
+
+    /* If name of the output file was not specified, use name of the target file */
+    if(output_filename == NULL){
+        output_filename = (char*)calloc(strlen(target_filename) + 5, sizeof(char));    /* 4 chars for dot and wav extension  */
+        strcat(output_filename, target_filename);                                      /* (".wav") and one for the NULL byte */
+        strcat(output_filename, ".wav");
+    }
+
     target_file = fopen(target_filename, "rb");
+
+    if(target_file == NULL){
+        fprintf(stderr, "Couldn't open file `%s`\n", target_filename);
+        return -1;
+    }
+
     fseek(target_file, 0, SEEK_END);
     uint64_t target_file_size = ftell(target_file);
     fseek(target_file, 0, SEEK_SET);
@@ -114,6 +133,8 @@ int main(int argc, char *argv[]){
                             .wav_subchunk2_id = "data",
                             .wav_subchunk2_size = data_length
     };
+
+    fclose(target_file);
 
     return 0;
 }
