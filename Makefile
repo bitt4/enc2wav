@@ -1,5 +1,5 @@
 FLAGS=-O3 -Wall
-EXE=ext2wav
+EXE=enc2wav
 
 main: main.c
 	gcc main.c -o $(EXE) $(FLAGS)
