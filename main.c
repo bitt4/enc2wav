@@ -34,7 +34,6 @@ int main(int argc, char *argv[]){
 
     /* default options */
     char* output_filename = NULL;
-    uint8_t filename_was_set = 0;
     short channels = 1;
     uint32_t sample_rate = 44100;
     short bits_per_sample = 16;
@@ -59,7 +58,6 @@ int main(int argc, char *argv[]){
                 exit(EXIT_FAILURE);
             case 'o':
                 output_filename = optarg;
-                filename_was_set = 1;
                 break;
             case 'c':
                 channels = (int)strtol(optarg, &end, 10);
@@ -87,7 +85,8 @@ int main(int argc, char *argv[]){
     }
 
     if(target_filename == NULL){
-        fprintf(stderr, "Target file not specified.\n");
+        fprintf(stderr, "%s: Target file not specified.\n"
+                "%s: Use -h or --help to display options.\n", argv[0], argv[0]);
         return -1;
     }
 
@@ -134,7 +133,28 @@ int main(int argc, char *argv[]){
                             .wav_subchunk2_size = data_length
     };
 
+    uint64_t read_buffer_length = wav_header_length + data_length;
+    char* target_file_read_buffer = (char*)malloc(read_buffer_length);
+    fread(target_file_read_buffer, 1, read_buffer_length, target_file);
     fclose(target_file);
+
+    output_file = fopen(output_filename, "wb");
+
+    if(output_file == NULL){
+        fprintf(stderr, "Couldn't create/open file `%s`.\n", output_filename);
+        return -1;
+    }
+
+    fwrite(&wav_header, sizeof(WavHeader), 1, output_file);
+    fwrite(target_file_read_buffer, sizeof(char), read_buffer_length, output_file);
+    char* padding = (char*)calloc(padding_length, sizeof(char));
+    fwrite(padding, sizeof(char), padding_length, output_file);
+
+    fclose(output_file);
+
+    free(output_filename);
+    free(target_file_read_buffer);
+    free(padding);
 
     return 0;
 }
