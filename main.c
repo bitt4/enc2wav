@@ -76,7 +76,15 @@ int main(int argc, char *argv[]){
             }
     }
 
-    /* TODO: catch parsing errors */
+    /* catch parsing errors */
+    if(channels <= 0){
+        fprintf(stderr, "Error: Invalid number of channels\n.");
+        return -1;
+    }
+    if(bits_per_sample <= 0 || bits_per_sample > 32 || bits_per_sample % 8 != 0){
+        fprintf(stderr, "Error: Invalid number of bits per sample\n.");
+        return -1;
+    }
 
     /* parse non-option arguments */
     for (int i = optind; i < argc; i++){
@@ -86,7 +94,7 @@ int main(int argc, char *argv[]){
 
     if(target_filename == NULL){
         fprintf(stderr, "%s: Target file not specified.\n"
-                "%s: Use -h or --help to display options.\n", argv[0], argv[0]);
+                        "%s: Use -h or --help to display options.\n", argv[0], argv[0]);
         return -1;
     }
 
