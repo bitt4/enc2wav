@@ -60,13 +60,13 @@ int main(int argc, char *argv[]){
                 output_filename = optarg;
                 break;
             case 'c':
-                channels = (int)strtol(optarg, &end, 10);
+                channels = (short)strtol(optarg, &end, 10);
                 break;
             case 's':
-                sample_rate = (int)strtol(optarg, &end, 10);
+                sample_rate = (uint32_t)strtol(optarg, &end, 10);
                 break;
             case 'b':
-                bits_per_sample = (int)strtol(optarg, &end, 10);
+                bits_per_sample = (short)strtol(optarg, &end, 10);
                 break;
             case '?':
                 fprintf(stderr,
