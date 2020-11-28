@@ -123,7 +123,7 @@ int main(int argc, char *argv[]){
     uint32_t number_of_samples = target_file_size / block_align + 1;    /* we need 1 more sample, because arbitrary file */
                                                                         /* might not be aligned perfectly */
     uint32_t data_length = number_of_samples * block_align;
-    uint32_t padding_length = target_file_size - data_length;
+    uint32_t padding_length = data_length - target_file_size;
 
     WavHeader wav_header = {
                             .wav_riff_header = "RIFF",
