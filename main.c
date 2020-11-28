@@ -168,5 +168,17 @@ int main(int argc, char *argv[]){
 }
 
 void display_help(){
-    /* Not implemented yet */
+    fprintf(stdout,
+            "Usage: ./enc2wav [OPTIONS...] FILE\n"
+            "Encode raw data from `FILE` to wave sound file format\n"
+            "\n"
+            "Options:\n"
+            "  -o, --output=FILE            Name of output file (D='source file name')\n"
+            "  -c, --channels=NUM           Number of channels  (D=1)\n"
+            "  -s, --sample-rate=NUM        Set sample rate     (D=44100)\n"
+            "  -b, --bits-per-sample=NUM    Set bits per sample (D=16)\n"
+            "  -h, --help                   Display this message\n"
+            "\n"
+            "Note: Bits per sample (`-b` or `--bits-per-sample`) can be set to either 8, 16, 24, or 32\n"
+            );
 }

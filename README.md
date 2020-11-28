@@ -20,4 +20,4 @@ Use `./enc2wav FILE` to hide contents of FILE in another file, which is of wave 
 |`-b`, `--bits-per-sample=NUM` | Set bits per sample | 16               |
 |`-h`, `--help`                | Display help        |                  |
 
-Bits per sample can be set to either 8, 16, 24 or 32.
+Note: Bits per sample can be set to either 8, 16, 24 or 32.
